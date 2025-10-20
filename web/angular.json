@@ -1,0 +1,199 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "schematics": {
+    "@schematics/angular:component": {
+      "style": "scss",
+      "type": "component",
+      "changeDetection": "OnPush"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
+    }
+  },
+  "projects": {
+    "weekly-demo": {
+      "projectType": "application",
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "src/main.ts",
+            "polyfills": ["zone.js"],
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "./projects/portal-weekly-demo/assets",
+                "output": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@huma-engineering/ui-kit/assets",
+                "output": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@huma-engineering/app-kit/assets",
+                "output": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@huma-engineering/auth-kit/assets",
+                "output": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "public",
+                "output": "public"
+              }
+            ],
+            "styles": [
+              "./node_modules/@huma-engineering/ui-kit/theme/styles.scss",
+              {
+                "input": "./projects/portal-weekly-demo/themes/styles.scss",
+                "inject": false,
+                "bundleName": "portal-weekly-demo-styles"
+              }
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.development.ts",
+                  "with": "src/environments/environment.production.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "weekly-demo:build:production"
+            },
+            "development": {
+              "buildTarget": "weekly-demo:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular/build:extract-i18n"
+        },
+        "test": {
+          "builder": "@angular/build:karma",
+          "options": {
+            "polyfills": ["zone.js", "zone.js/testing"],
+            "tsConfig": "tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
+            "styles": [
+              "./node_modules/@huma-engineering/ui-kit/theme/styles.scss",
+              {
+                "input": "./projects/portal-weekly-demo/themes/styles.scss",
+                "inject": false,
+                "bundleName": "portal-weekly-demo-styles"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+          }
+        }
+      }
+    },
+    "portal-weekly-demo": {
+      "projectType": "library",
+      "root": "projects/portal-weekly-demo",
+      "sourceRoot": "projects/portal-weekly-demo/src",
+      "prefix": "huma",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/portal-weekly-demo/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/portal-weekly-demo/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:karma",
+          "options": {
+            "tsConfig": "projects/portal-weekly-demo/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/portal-weekly-demo/**/*.ts",
+              "projects/portal-weekly-demo/**/*.html"
+            ],
+            "eslintConfig": "projects/portal-weekly-demo/eslint.config.js"
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "schematicCollections": ["angular-eslint"]
+  }
+}

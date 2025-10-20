@@ -1,0 +1,52 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "strict": true,
+    "sourceMap": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "paths": {
+      "@huma-engineering/portal-weekly-demo": [
+        "dist/portal-weekly-demo",
+        "projects/portal-weekly-demo/src/public-api.ts"
+      ],
+      "@huma-engineering/portal-weekly-demo/*": [
+        "dist/portal-weekly-demo/*",
+        "projects/portal-weekly-demo/*/src/public-api.ts"
+      ]
+    },
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "preserve"
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "typeCheckHostBindings": true,
+    "strictTemplates": true
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/portal-weekly-demo/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/portal-weekly-demo/tsconfig.spec.json"
+    }
+  ]
+}
